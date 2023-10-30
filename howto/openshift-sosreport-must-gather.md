@@ -1,38 +1,42 @@
-## Como colectar un must gater y un sosreport de un nodo para Openshift 4.x
+# Como generar un must gater y un sosreport de un nodo para Openshift 4.x
 
-# Must Gather
+## Must Gather
 
-# Logueados como cluster-admin ejecutar el proceso de colección de datos
+Logueados como cluster-admin ejecutar el proceso de colección de datos.
+```sh
 oc adm must-gather
-
-# Una vez colectados los datos quedaron en un archivo que empaquetamos y subimos 
-# a Red Hat para que sea analizado.
+```
+Una vez colectados los datos quedaron en un archivo que empaquetamos y subimos a Red Hat para que sea analizado.
+```sh
 tar cvzf $(hostname)-must-gather.tar.gz must-gater*
-
-# Una vez colectado subirlo a Red Hat, los must-gather suelen ser archivos pesados 
-# por lo que conviene subirlos con la tool redhat-support-tool
-# RH Case ID: 02722809
+```
+Una vez colectado subirlo a Red Hat, los must-gather suelen ser archivos pesados por lo que conviene subirlos con la tool `redhat-support-tool`. Ejemplo: RH Case ID: 02722809
+```sh
 redhat-support-tool addattachment -c 02722809 -f $(hostname)-must-gather.tar.gz
+```
 
-# SOSREPORT
+## SOSREPORT
 
-# Si necesitamos colectar información de un nodo especifico de Openshift debemos
-# Debemos colectar un sosreport, para esto seguir los siguientes pasos
+Si necesitamos colectar información de un nodo especifico de Openshift debemos colectar un sosreport, para esto seguir los siguientes pasos:
 
-# Entramos en modo debug al nodo
+Entramos en modo debug al nodo
+```sh
 oc debug node/infra-03.dominio.com
-
-# Con esto veremos que estamos dentro del pod de rhel7
+```
+Con esto veremos que estamos dentro del pod de rhel7.
+```sh
 sh-4.2# cat /etc/redhat-release
 Red Hat Enterprise Linux Server release 7.8 (Maipo)
 sh-4.2# 
-
-# Ingresamo con chroot al nodo como root
+```
+Ingresamos con chroot al nodo como root.
+```sh
 sh-4.2# chroot /host bash
 [root@infra-03 /]# cat /etc/redhat-release
 Red Hat Enterprise Linux CoreOS release 4.3
-
-# Descargamos toolbox que contine sosreport
+```
+Descargamos toolbox que contine sosreport.
+```sh
 [root@infra-03 /]# toolbox
 Trying to pull registry.redhat.io/rhel8/support-tools...
 Getting image source signatures
@@ -46,9 +50,10 @@ Storing signatures
 Spawning a container 'toolbox-' with image 'registry.redhat.io/rhel8/support-tools'
 Detected RUN label in the container image. Using that as the default...
 command: podman run -it --name toolbox- --privileged --ipc=host --net=host --pid=host -e HOST=/host -e NAME=toolbox- -e IMAGE=registry.redhat.io/rhel8/support-tools:latest -v /run:/run -v /var/log:/var/log -v /etc/machine-id:/etc/machine-id -v /etc/localtime:/etc/localtime -v /:/host registry.redhat.io/rhel8/support-tools:latest
+```
 
-
-# Ejecutamos el sosreport
+Ejecutamos el sosreport
+```sh
 [root@infra-03 /]# sosreport -k crio.all=on -k crio.logs=on
 
 sosreport (version 3.8)
@@ -91,7 +96,7 @@ Your sosreport has been generated and saved in:
   /host/var/tmp/sosreport-infra-03-02722809-2020-08-08-bhuiswi.tar.xz >>>> ARCHIVO QUE HAY QUE SUBIR AL CASO
 
 The checksum is: 506dcf594d4c051bd40583583b0a798a
-
+```
 
 
 
