@@ -30,6 +30,7 @@ How to and Deep Dive on Openshift Container Platform
 23. [Openshift Monitoring - PromQL Queries](howto/openshift-monitoring-promql-queries.md)
 24. [How to deploy a simple pod for Troubleshooting](howto/how-to-generate-pod-test.md)
 25. [How to deploy a simple pod with bucket S3 as a file system](howto/pod-with-s3-fs.md)
+26. [How to backup ETCD in Openshift](howto/backup-etcd.md)
 
 ## Workshops
 
