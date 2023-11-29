@@ -19,6 +19,8 @@ tar cvaf must-gather.tar.gz must-gather.local.*
 ### Chequear APIs removidas.
 Este análisis también se hace en el caso proactivo.
 
+https://access.redhat.com/articles/6955985
+
 - Uso de APIs.
 ```sh
 oc get apirequestcounts -o jsonpath='{range .items[?(@.status.removedInRelease!="")]}{.status.removedInRelease}{"\t"}{.status.requestCount}{"\t"}{.metadata.name}{"\n"}{end}'
