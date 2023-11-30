@@ -14,7 +14,20 @@ oc adm must-gather
 ```sh
 tar cvaf must-gather.tar.gz must-gather.local.*
 ```
-- Subir al caso
+- Ver cantidad de nodos.
+```sh
+oc get nodes
+```
+- Obtner cantidad de namespaces.
+```sh
+oc get projects --no-headers | wc -l
+```
+- Obtner cantidad de pods.
+```sh
+oc get pods --all-namespaces --no-headers | wc -l
+```
+
+- Subir datos al caso
 
 ### Chequear APIs removidas.
 Este análisis también se hace en el caso proactivo.
